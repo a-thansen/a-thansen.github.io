@@ -11,12 +11,14 @@
     <style>
         /* The "Crime Clock" Dark Theme */
         body {
-            background-color: #121212;
+            /* Initial morning color; JavaScript handles the rest */
+            background-color: rgb(26, 32, 44); 
             color: #e0e0e0;
             font-family: 'Merriweather', serif;
             line-height: 1.8;
             margin: 0;
             padding: 0;
+            transition: background-color 0.1s ease-out; /* Smooths the scrolling color change */
         }
 
         /* Typography & Layout */
@@ -28,8 +30,9 @@
         header {
             text-align: center;
             padding: 120px 20px;
-            background: radial-gradient(circle at center, #2a2a2a 0%, #121212 100%);
-            border-bottom: 2px solid #ff7f0e; /* Accent color matching your Plotly scatter */
+            /* Transparent gradient so the body scroll color shows through */
+            background: radial-gradient(circle at center, rgba(42,42,42,0.5) 0%, rgba(18,18,18,0) 100%);
+            border-bottom: 2px solid #ff7f0e;
         }
 
         header h1 {
@@ -37,18 +40,19 @@
             margin: 0 0 10px 0;
             letter-spacing: 3px;
             color: #ffffff;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
         }
 
         .subtitle {
             font-size: 1.2rem;
             font-style: italic;
-            color: #aaaaaa;
+            color: #d0d0d0;
             max-width: 600px;
             margin: 0 auto;
         }
 
         .container {
-            max-width: 800px; /* Forces a tight, readable linear scroll */
+            max-width: 800px;
             margin: 0 auto;
             padding: 60px 20px;
         }
@@ -82,7 +86,6 @@
             border-radius: 4px;
         }
 
-        /* For the specific height needs of your interactive plots */
         .map-frame { height: 500px; }
         .scatter-frame { height: 600px; }
 
@@ -97,10 +100,11 @@
         /* Methodology & Context Box */
         .context-box {
             background-color: #1a1a24;
-            border-left: 5px solid #4B0082; /* Deep purple from your Polar chart */
+            border-left: 5px solid #4B0082;
             padding: 25px;
             margin: 60px 0;
             font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
         .context-box h3 {
@@ -112,8 +116,8 @@
             text-align: center;
             padding: 40px;
             font-size: 0.9rem;
-            color: #666;
-            border-top: 1px solid #333;
+            color: #888;
+            border-top: 1px solid rgba(255,255,255,0.1);
             margin-top: 50px;
         }
     </style>
@@ -146,7 +150,7 @@
 
         <div class="viz-container">
             <iframe class="map-frame" src="burglary_heatmap.html" title="Animated Heatmap of SF Burglaries"></iframe>
-            <div class="viz-caption"><strong>Figure 2:</strong> Geographic shift of Burglaries over a 24-hour period. Press play to watch the density move across police districts.</div>
+            <div class="viz-caption"><strong>Figure 2:</strong> Geographic shift of Burglaries over a 24-hour period (Filtered to 2023 data). Press play to watch the density move across police districts.</div>
         </div>
 
         <div class="narrative">
@@ -173,5 +177,29 @@
         Data Story Assignment 2.1 | Built for [Class/Professor Name] | Data Source: SFPD Incident Reports (2003-2025)
     </footer>
 
+    <script>
+        window.addEventListener('scroll', () => {
+            // Calculate how far down the page the user has scrolled (0.0 to 1.0)
+            const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+            let r, g, b;
+
+            if (scrollPercent < 0.5) {
+                // Top half of the page: Transition from Morning (Dark Blue) to Dusk (Muted Sunset)
+                const p = scrollPercent / 0.5; // Scale to 0-1 for this half
+                r = Math.round(26 + p * (60 - 26));
+                g = Math.round(32 + p * (35 - 32));
+                b = Math.round(44 + p * (23 - 44));
+            } else {
+                // Bottom half of the page: Transition from Dusk (Muted Sunset) to Night (Pitch Black)
+                const p = (scrollPercent - 0.5) / 0.5; // Scale to 0-1 for this half
+                r = Math.round(60 + p * (12 - 60));
+                g = Math.round(35 + p * (12 - 35));
+                b = Math.round(23 + p * (12 - 23));
+            }
+
+            // Apply the new background color dynamically
+            document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        });
+    </script>
 </body>
 </html>
