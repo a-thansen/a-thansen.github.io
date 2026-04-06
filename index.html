@@ -4,57 +4,209 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The San Francisco Larceny Wave</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;1,300&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --bg-dark: #0a0a0f;
+            --text-main: #d1d5db;
+            --text-muted: #9ca3af;
+            --accent-red: #ef4444;
+            --accent-red-glow: rgba(239, 68, 68, 0.2);
+            --card-bg: rgba(30, 30, 35, 0.6);
+            --border-light: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-red); }
+
         body {
-            background-color: #121212;
-            color: #e0e0e0;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             font-family: 'Merriweather', serif;
-            line-height: 1.8;
+            line-height: 1.9;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
         }
 
-        h1, h2, h3 { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        h1, h2, h3 { 
+            font-family: 'Oswald', sans-serif; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
 
+        /* Reading Progress Bar */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--accent-red);
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.1s ease-out;
+            box-shadow: 0 0 10px var(--accent-red);
+        }
+
+        /* Cinematic Hero Header */
         header {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 65vh;
             text-align: center;
-            padding: 120px 20px;
-            background: linear-gradient(180deg, rgba(239,68,68,0.15) 0%, #121212 100%);
-            border-bottom: 2px solid #ef4444; 
+            padding: 0 20px;
+            background: radial-gradient(circle at 50% 0%, #3a0a0a 0%, var(--bg-dark) 80%);
+            border-bottom: 1px solid var(--border-light);
         }
 
-        header h1 { font-size: 4rem; margin: 0 0 10px 0; color: #ffffff; letter-spacing: 2px; }
-        .subtitle { font-size: 1.2rem; font-style: italic; color: #aaaaaa; max-width: 600px; margin: 0 auto; }
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 3px;
+            background: var(--accent-red);
+            box-shadow: 0 0 15px var(--accent-red);
+        }
 
-        .container { max-width: 800px; margin: 0 auto; padding: 60px 20px; }
-        .narrative { font-size: 1.15rem; margin-bottom: 30px; }
-        
-        /* Fixed dropcap styling so it aligns nicely with actual text */
-        .dropcap { font-size: 3.5rem; float: left; margin-right: 8px; margin-top: -8px; line-height: 1; font-family: 'Oswald', sans-serif; color: #ef4444; }
+        header h1 { 
+            font-size: clamp(3rem, 6vw, 5.5rem); 
+            margin: 0 0 15px 0; 
+            line-height: 1.1;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
 
+        .subtitle { 
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: clamp(1.1rem, 2vw, 1.4rem); 
+            color: var(--text-muted); 
+            max-width: 700px; 
+            margin: 0 auto; 
+        }
+
+        /* Layout Geometry */
+        .container { max-width: 740px; margin: 0 auto; padding: 80px 20px; }
+        .viz-wrapper { max-width: 1000px; margin: 60px auto; padding: 0 20px; }
+
+        /* Typography & Narrative */
+        .narrative { 
+            font-size: 1.2rem; 
+            margin-bottom: 40px; 
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        .dropcap { 
+            font-size: 4.5rem; 
+            float: left; 
+            margin: -10px 12px -15px 0; 
+            line-height: 1; 
+            font-family: 'Oswald', sans-serif; 
+            color: var(--accent-red);
+            text-shadow: 2px 2px 0px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Premium Glassmorphism Data Containers */
         .viz-container {
-            background-color: #1e1e1e; padding: 20px; border-radius: 8px; margin: 50px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8); border-top: 3px solid #333;
+            background-color: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 25px; 
+            border-radius: 12px; 
+            border: 1px solid var(--border-light);
+            border-top: 3px solid var(--accent-red);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .viz-container img, .viz-container iframe { width: 100%; border: none; border-radius: 4px; }
-        .map-frame { height: 500px; }
-        .area-frame { height: 600px; }
 
-        .viz-caption { text-align: center; font-size: 0.9rem; color: #888; margin-top: 15px; font-family: sans-serif; }
+        .viz-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.7), 0 0 20px var(--accent-red-glow);
+        }
 
+        .viz-container img, .viz-container iframe { 
+            width: 100%; 
+            border: none; 
+            border-radius: 6px; 
+            background: #121212; /* Fallback for iframes loading */
+        }
+        .map-frame { height: 550px; }
+        .area-frame { height: 650px; }
+
+        .viz-caption { 
+            text-align: left; 
+            font-size: 0.95rem; 
+            color: var(--text-muted); 
+            margin-top: 20px; 
+            font-family: 'Inter', sans-serif;
+            border-left: 3px solid #444;
+            padding-left: 15px;
+        }
+
+        .viz-caption strong { color: #fff; }
+
+        /* Insight Terminal / Context Box */
         .context-box {
-            background-color: #1a1a24; border-left: 5px solid #3b82f6; padding: 25px; margin: 60px 0; font-size: 1rem;
+            background: linear-gradient(135deg, rgba(30,30,40,0.8) 0%, rgba(15,15,20,0.9) 100%);
+            border-left: 4px solid #3b82f6;
+            border-radius: 0 12px 12px 0;
+            padding: 35px; 
+            margin: 80px 0; 
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
         }
-        .context-box h3 { margin-top: 0; color: #93c5fd; }
-        
-        footer { text-align: center; padding: 40px; font-size: 0.9rem; color: #666; border-top: 1px solid #333; margin-top: 50px; }
+
+        .context-box::before {
+            content: 'CONTEXT';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 6rem;
+            color: rgba(255,255,255,0.03);
+            pointer-events: none;
+        }
+
+        .context-box h3 { margin-top: 0; color: #93c5fd; font-size: 1.6rem; }
+
+        /* Footer */
+        footer { 
+            text-align: center; 
+            padding: 60px 20px; 
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem; 
+            color: #555; 
+            border-top: 1px solid var(--border-light); 
+            background: #050508;
+        }
+
+        /* Intro Animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
     </style>
 </head>
 <body>
+
+    <div id="progress-bar"></div>
 
     <header>
         <h1>The Larceny Wave</h1>
@@ -62,52 +214,71 @@
     </header>
 
     <div class="container">
-        
         <div class="narrative">
             <p><span class="dropcap">S</span>an Francisco has long grappled with a reputation for property crime, but the data reveals a story much more complex than the headlines suggest. Utilizing the San Francisco Police Department (SFPD) Incident Reports dataset, which spans from 2003 to the present, we can trace the distinct patterns of "Larceny/Theft"—a category primarily driven by auto glass break-ins and retail shoplifting. But has it always been this way?</p>
             
             <p>A pivotal moment in this timeline is November 2014, when California voters passed Proposition 47. This measure reclassified certain non-violent property crimes under $950 from felonies to misdemeanors. The immediate question for data analysts and city residents alike is: how did the streets of San Francisco react to this legislative shift? As the data below illustrates, the aftermath was stark and immediate.</p>
         </div>
+    </div>
 
+    <div class="viz-wrapper">
         <div class="viz-container">
             <img src="larceny_timeline.png" alt="Line chart showing the surge in Larceny following 2014">
-            <div class="viz-caption"><strong>Figure 1:</strong> Total Larceny Incidents by Year. Notice the immediate and dramatic shift following the passage of Prop 47 in late 2014.</div>
+            <div class="viz-caption"><strong>Figure 1: The Inflection Point.</strong> Total Larceny Incidents by Year. Notice the immediate and dramatic shift following the passage of Prop 47 in late 2014, breaking a decade-long plateau.</div>
         </div>
+    </div>
 
+    <div class="container">
         <div class="narrative">
             <p>The post-2014 surge is undeniable, eventually peaking into a massive wave in the late 2010s. However, a city-wide line chart often masks neighborhood-level realities. Did this wave of larceny wash over the entire city equally, or was it intensely localized?</p>
             
             <p>To answer this, we can aggregate the data by Police District to compare the landscape before Proposition 47 against the years that followed. The resulting choropleth maps reveal a striking concentration. Rather than a uniform increase across all residential districts, the "heat" of the larceny wave was overwhelmingly absorbed by the downtown core, commercial hubs, and major tourist corridors.</p>
         </div>
+    </div>
 
+    <div class="viz-wrapper">
         <div class="viz-container">
             <iframe class="map-frame" src="larceny_choropleth_prop47.html" title="Dual Choropleth Map comparing Larceny before and after Prop 47"></iframe>
-            <div class="viz-caption"><strong>Figure 2:</strong> The Epicenter. A side-by-side choropleth comparison of Larceny counts by Police District before 2014 (Left) and after 2014 (Right).</div>
+            <div class="viz-caption"><strong>Figure 2: The Epicenter.</strong> A side-by-side choropleth comparison of Larceny counts by Police District before 2014 (Left) and after 2014 (Right). Darker reds indicate higher concentrations of incidents.</div>
         </div>
+    </div>
 
+    <div class="container">
         <div class="narrative">
             <p>With larceny concentrated so heavily in specific zones, a critical thinker must ask: was San Francisco simply experiencing a broader crime wave? Did all crimes surge in tandem, or was this phenomenon unique to larceny?</p>
             
             <p>By comparing larceny against a broader spectrum of offenses—including burglary, motor vehicle theft, assault, vandalism, and drug offenses—a fascinating divergence emerges. Explore the interactive chart below to see how larceny completely decoupled from other major crimes, soaring while the rest remained relatively stable.</p>
         </div>
+    </div>
 
+    <div class="viz-wrapper">
         <div class="viz-container">
             <iframe class="area-frame" src="larceny_property_crimes_comparison.html" title="Interactive line chart of major crimes"></iframe>
-            <div class="viz-caption"><strong>Figure 3:</strong> Crime Breakdown. Hover to explore how Larceny dominated the landscape compared to other major offenses.</div>
+            <div class="viz-caption"><strong>Figure 3: Crime Breakdown.</strong> Hover to explore how Larceny dominated the landscape compared to other major offenses. You can double-click items in the legend to isolate specific trends.</div>
         </div>
+    </div>
 
+    <div class="container">
         <div class="context-box">
-            <h3>Correlation vs. Causation: The Context of the Data</h3>
+            <h3>Correlation vs. Causation</h3>
             <p>It is tempting to look at the sharp increase in larceny following 2014 and conclude that Proposition 47 is the sole culprit. However, in data science, correlation does not automatically equal causation. During this exact same period, the SFPD introduced a streamlined online reporting system for car break-ins. Because victims no longer had to wait for an officer to file a report, the "surge" in the data is partially driven by an increase in <em>reporting</em>, not just an increase in actual crime.</p>
             
             <p>Furthermore, this era coincided with a massive tech boom, widening wealth inequality, and a historic surge in tourism—creating a target-rich environment for auto-glass theft. While Proposition 47 is a compelling piece of the narrative, the real-world data is deeply interwoven with these complex social, technological, and economic dynamics.</p>
         </div>
-
     </div>
 
     <footer>
         Data Story Assignment | Built for [Class/Professor Name] | Data Source: SFPD Incident Reports (2003-2023)
     </footer>
+
+    <script>
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        };
+    </script>
 
 </body>
 </html>
