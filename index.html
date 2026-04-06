@@ -3,203 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Circadian Rhythm of San Francisco Crime</title>
+    <title>The San Francisco Larceny Wave</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;1,300&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* The "Crime Clock" Dark Theme */
         body {
-            /* Initial morning color; JavaScript handles the rest */
-            background-color: rgb(26, 32, 44); 
+            background-color: #121212;
             color: #e0e0e0;
             font-family: 'Merriweather', serif;
             line-height: 1.8;
             margin: 0;
             padding: 0;
-            transition: background-color 0.1s ease-out; /* Smooths the scrolling color change */
         }
 
-        /* Typography & Layout */
-        h1, h2, h3 {
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-        }
+        h1, h2, h3 { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
 
         header {
             text-align: center;
             padding: 120px 20px;
-            /* Transparent gradient so the body scroll color shows through */
-            background: radial-gradient(circle at center, rgba(42,42,42,0.5) 0%, rgba(18,18,18,0) 100%);
-            border-bottom: 2px solid #ff7f0e;
+            background: linear-gradient(180deg, rgba(239,68,68,0.15) 0%, #121212 100%);
+            border-bottom: 2px solid #ef4444; 
         }
 
-        header h1 {
-            font-size: 4rem;
-            margin: 0 0 10px 0;
-            letter-spacing: 3px;
-            color: #ffffff;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-        }
+        header h1 { font-size: 4rem; margin: 0 0 10px 0; color: #ffffff; letter-spacing: 2px; }
+        .subtitle { font-size: 1.2rem; font-style: italic; color: #aaaaaa; max-width: 600px; margin: 0 auto; }
 
-        .subtitle {
-            font-size: 1.2rem;
-            font-style: italic;
-            color: #d0d0d0;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        .container { max-width: 800px; margin: 0 auto; padding: 60px 20px; }
+        .narrative { font-size: 1.15rem; margin-bottom: 30px; }
+        .dropcap::first-letter { font-size: 3.5rem; float: left; margin-right: 10px; line-height: 1; font-family: 'Oswald', sans-serif; color: #ef4444; }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-
-        .narrative {
-            font-size: 1.15rem;
-            margin-bottom: 30px;
-        }
-
-        .dropcap::first-letter {
-            font-size: 3.5rem;
-            float: left;
-            margin-right: 10px;
-            line-height: 1;
-            font-family: 'Oswald', sans-serif;
-            color: #ff7f0e;
-        }
-
-        /* Visualization Containers */
         .viz-container {
-            background-color: #1e1e1e;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 50px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            background-color: #1e1e1e; padding: 20px; border-radius: 8px; margin: 50px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8); border-top: 3px solid #333;
         }
-
-        .viz-container img, .viz-container iframe {
-            width: 100%;
-            border: none;
-            border-radius: 4px;
-        }
-
+        .viz-container img, .viz-container iframe { width: 100%; border: none; border-radius: 4px; }
         .map-frame { height: 500px; }
-        .scatter-frame { height: 600px; }
+        .area-frame { height: 600px; }
 
-        .viz-caption {
-            text-align: center;
-            font-size: 0.9rem;
-            color: #888;
-            margin-top: 15px;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
+        .viz-caption { text-align: center; font-size: 0.9rem; color: #888; margin-top: 15px; font-family: sans-serif; }
 
-        /* Methodology & Context Box */
         .context-box {
-            background-color: #1a1a24;
-            border-left: 5px solid #4B0082;
-            padding: 25px;
-            margin: 60px 0;
-            font-size: 1rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            background-color: #1a1a24; border-left: 5px solid #3b82f6; padding: 25px; margin: 60px 0; font-size: 1rem;
         }
-
-        .context-box h3 {
-            margin-top: 0;
-            color: #a78bfa;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px;
-            font-size: 0.9rem;
-            color: #888;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            margin-top: 50px;
-        }
+        .context-box h3 { margin-top: 0; color: #93c5fd; }
+        
+        footer { text-align: center; padding: 40px; font-size: 0.9rem; color: #666; border-top: 1px solid #333; margin-top: 50px; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>The Crime Clock</h1>
-        <div class="subtitle">Exploring the circadian rhythm of illicit activity in San Francisco from 2003 to 2025.</div>
+        <h1>The Larceny Wave</h1>
+        <div class="subtitle">Exploring the surge of property crime in San Francisco, the impact of Proposition 47, and the data behind the headlines.</div>
     </header>
 
     <div class="container">
         
         <div class="narrative">
-            <p class="dropcap">[Hook the reader here. Explain the concept of a city having a "circadian rhythm" and how crime isn't just about 'where', but 'when'.]</p>
+            <p class="dropcap">[Write your intro here. Introduce the SFPD incident dataset (2003-Present) so the reader knows the source. Explain what "Larceny/Theft" means in this context—primarily car break-ins and shoplifting. Introduce the main question: San Francisco has a reputation for property crime, but has it always been this way?]</p>
             
-            <p>[Introduce your dataset. Briefly explain what the SFPD incident reports are, and define what you mean by "Personal Focus Crimes." Remember your learning outcome: A visualization without context is just a pretty shape. Tell the reader what they are about to look at.]</p>
+            <p>[Introduce Proposition 47, passed by California voters in November 2014, which reclassified certain non-violent property crimes under $950 from felonies to misdemeanors. Set up the first chart by asking the reader to look at what happened immediately after it passed.]</p>
         </div>
 
         <div class="viz-container">
-            <img src="crime_clock.png" alt="Polar bar chart showing San Francisco crime volumes by hour">
-            <div class="viz-caption"><strong>Figure 1:</strong> The 24-Hour Crime Cycle. Notice the drastic drop-off between 3:00 AM and 5:00 AM.</div>
+            <img src="larceny_timeline.png" alt="Line chart showing the surge in Larceny following 2014">
+            <div class="viz-caption"><strong>Figure 1:</strong> Total Larceny Incidents by Year. Notice the immediate and dramatic shift following the passage of Prop 47 in late 2014.</div>
         </div>
 
         <div class="narrative">
-            <p>[Transition text: You just showed them the overall clock. Now, guide their attention to a specific insight. Explain how some crimes rely on the cover of darkness, while others rely on empty daytime houses.]</p>
+            <p>[Transition Text: The surge is undeniable, peaking around 2017. But a city-wide line chart doesn't tell us *who* is being affected. Did neighborhoods across the entire city experience this wave equally, or was it concentrated?]</p>
             
-            <p>[Introduce the concept of Burglary as a crime of "absence." Set up the map below so they know what to look for when they press play on the animation.]</p>
+            <p>[Set up the map. Explain that we isolated the data to the absolute peak of the wave to see where the crisis was truly centered. Point out that the heat is almost entirely swallowed by downtown and major tourist corridors.]</p>
         </div>
 
         <div class="viz-container">
-            <iframe class="map-frame" src="burglary_heatmap.html" title="Animated Heatmap of SF Burglaries"></iframe>
-            <div class="viz-caption"><strong>Figure 2:</strong> Geographic shift of Burglaries over a 24-hour period (Filtered to 2023 data). Press play to watch the density move across police districts.</div>
+            <iframe class="map-frame" src="larceny_epicenter.html" title="Heatmap of Larceny in SF during its peak year"></iframe>
+            <div class="viz-caption"><strong>Figure 2:</strong> The Epicenter. Density of Larceny incidents during the peak of the wave, showing massive concentration in commercial and tourist zones.</div>
         </div>
 
         <div class="narrative">
-            <p>[Transition text: Contrast Burglary with Drug Offenses. Explain the insight you found in your notebook: that while they are correlated (r = 0.46), their relationship to the 'Crime Clock' is totally different because Drug Offenses are crimes of "presence."]</p>
+            <p>[Transition Text: So Larceny surged, and it was highly concentrated. But a critical thinker might ask: Did *all* crime go up during this period? Was SF simply becoming more dangerous overall?]</p>
             
-            <p>[Encourage the reader to interact with the next chart. Tell them to hover over the dots to see the specific dates and counts.]</p>
+            <p>[Set up the final interactive chart. Explain how comparing Larceny to other property crimes (like Burglary and Motor Vehicle Theft) reveals a fascinating trend. Encourage the reader to hover over the interactive chart below to see how Larceny decoupled from other crimes.]</p>
         </div>
 
         <div class="viz-container">
-            <iframe class="scatter-frame" src="drugs_vs_burglary.html" title="Scatter plot comparing daily drug offenses and burglaries"></iframe>
-            <div class="viz-caption"><strong>Figure 3:</strong> Daily Volume: Drug Offenses vs. Burglary. Hover to explore specific days and outliers.</div>
+            <iframe class="area-frame" src="property_crimes_comparison.html" title="Interactive area chart of property crimes"></iframe>
+            <div class="viz-caption"><strong>Figure 3:</strong> Property Crime Breakdown. Hover to explore how Larceny dominated the property crime landscape compared to Burglary and Vehicle Theft.</div>
         </div>
 
         <div class="context-box">
-            <h3>Data is Never Neutral</h3>
-            <p>[This is where you hit the final learning outcome. Acknowledge the limitations of police data. Explain that an "incident report" does not equal a conviction, and that drug offense patterns are heavily influenced by patrol routes and enforcement priorities, not just where crimes happen.]</p>
+            <h3>Correlation vs. Causation: The Context of the Data</h3>
+            <p>[Nail your final learning outcome here. Acknowledge that while the graph jumps right after Prop 47, data is never neutral. Mention that reporting methods may have changed (e.g., SFPD introduced easier online reporting for car break-ins around this time).]</p>
             
-            <p>[Briefly tie this back to the Week 1 readings on predictive policing. Show that you understand the context of the system you are visualizing.]</p>
+            <p>[Discuss other factors: This era also coincided with a massive tech-boom, extreme wealth inequality, and a surge in tourism, creating more opportunity for auto-glass theft. Explain that while Prop 47 is a compelling narrative, real-world data is deeply complex and interwoven with social dynamics.]</p>
         </div>
 
     </div>
 
     <footer>
-        Data Story Assignment 2.1 | Built for [Class/Professor Name] | Data Source: SFPD Incident Reports (2003-2025)
+        Data Story Assignment 2.1 | Built for [Class/Professor Name] | Data Source: SFPD Incident Reports
     </footer>
 
-    <script>
-        window.addEventListener('scroll', () => {
-            // Calculate how far down the page the user has scrolled (0.0 to 1.0)
-            const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-            let r, g, b;
-
-            if (scrollPercent < 0.5) {
-                // Top half of the page: Transition from Morning (Dark Blue) to Dusk (Muted Sunset)
-                const p = scrollPercent / 0.5; // Scale to 0-1 for this half
-                r = Math.round(26 + p * (60 - 26));
-                g = Math.round(32 + p * (35 - 32));
-                b = Math.round(44 + p * (23 - 44));
-            } else {
-                // Bottom half of the page: Transition from Dusk (Muted Sunset) to Night (Pitch Black)
-                const p = (scrollPercent - 0.5) / 0.5; // Scale to 0-1 for this half
-                r = Math.round(60 + p * (12 - 60));
-                g = Math.round(35 + p * (12 - 35));
-                b = Math.round(23 + p * (12 - 23));
-            }
-
-            // Apply the new background color dynamically
-            document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-        });
-    </script>
 </body>
 </html>
