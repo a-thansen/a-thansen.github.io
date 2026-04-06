@@ -32,7 +32,9 @@
 
         .container { max-width: 800px; margin: 0 auto; padding: 60px 20px; }
         .narrative { font-size: 1.15rem; margin-bottom: 30px; }
-        .dropcap::first-letter { font-size: 3.5rem; float: left; margin-right: 10px; line-height: 1; font-family: 'Oswald', sans-serif; color: #ef4444; }
+        
+        /* Fixed dropcap styling so it aligns nicely with actual text */
+        .dropcap { font-size: 3.5rem; float: left; margin-right: 8px; margin-top: -8px; line-height: 1; font-family: 'Oswald', sans-serif; color: #ef4444; }
 
         .viz-container {
             background-color: #1e1e1e; padding: 20px; border-radius: 8px; margin: 50px 0;
@@ -62,9 +64,9 @@
     <div class="container">
         
         <div class="narrative">
-            <p class="dropcap">[Write your intro here. Introduce the SFPD incident dataset (2003-Present) so the reader knows the source. Explain what "Larceny/Theft" means in this context—primarily car break-ins and shoplifting. Introduce the main question: San Francisco has a reputation for property crime, but has it always been this way?]</p>
+            <p><span class="dropcap">S</span>an Francisco has long grappled with a reputation for property crime, but the data reveals a story much more complex than the headlines suggest. Utilizing the San Francisco Police Department (SFPD) Incident Reports dataset, which spans from 2003 to the present, we can trace the distinct patterns of "Larceny/Theft"—a category primarily driven by auto glass break-ins and retail shoplifting. But has it always been this way?</p>
             
-            <p>[Introduce Proposition 47, passed by California voters in November 2014, which reclassified certain non-violent property crimes under $950 from felonies to misdemeanors. Set up the first chart by asking the reader to look at what happened immediately after it passed.]</p>
+            <p>A pivotal moment in this timeline is November 2014, when California voters passed Proposition 47. This measure reclassified certain non-violent property crimes under $950 from felonies to misdemeanors. The immediate question for data analysts and city residents alike is: how did the streets of San Francisco react to this legislative shift? As the data below illustrates, the aftermath was stark and immediate.</p>
         </div>
 
         <div class="viz-container">
@@ -73,20 +75,20 @@
         </div>
 
         <div class="narrative">
-            <p>[Transition Text: The surge is undeniable, peaking around 2017. But a city-wide line chart doesn't tell us *who* is being affected. Did neighborhoods across the entire city experience this wave equally, or was it concentrated?]</p>
+            <p>The post-2014 surge is undeniable, eventually peaking into a massive wave in the late 2010s. However, a city-wide line chart often masks neighborhood-level realities. Did this wave of larceny wash over the entire city equally, or was it intensely localized?</p>
             
-            <p>[Set up the map. Explain that we isolated the data to the absolute peak of the wave to see where the crisis was truly centered. Point out that the heat is almost entirely swallowed by downtown and major tourist corridors.]</p>
+            <p>To answer this, we can split our geographic data to compare the landscape before Proposition 47 against the years that followed. The resulting maps reveal a striking concentration. Rather than a uniform increase across all residential districts, the "heat" of the larceny wave was overwhelmingly absorbed by the downtown core, commercial hubs, and major tourist corridors.</p>
         </div>
 
         <div class="viz-container">
-            <iframe class="map-frame" src="larceny_epicenter.html" title="Heatmap of Larceny in SF during its peak year"></iframe>
-            <div class="viz-caption"><strong>Figure 2:</strong> The Epicenter. Density of Larceny incidents during the peak of the wave, showing massive concentration in commercial and tourist zones.</div>
+            <iframe class="map-frame" src="larceny_dualmap_prop47.html" title="Dual Map comparing Larceny before and after Prop 47"></iframe>
+            <div class="viz-caption"><strong>Figure 2:</strong> The Epicenter. A side-by-side comparison of Larceny densities before 2014 (Left) and after 2014 (Right). Notice the massive concentration in commercial and tourist zones.</div>
         </div>
 
         <div class="narrative">
-            <p>[Transition Text: So Larceny surged, and it was highly concentrated. But a critical thinker might ask: Did *all* crime go up during this period? Was SF simply becoming more dangerous overall?]</p>
+            <p>With larceny concentrated so heavily in specific zones, a critical thinker must ask: was San Francisco simply experiencing a broader crime wave? Did all property crimes surge in tandem, or was this phenomenon unique to larceny?</p>
             
-            <p>[Set up the final interactive chart. Explain how comparing Larceny to other property crimes (like Burglary and Motor Vehicle Theft) reveals a fascinating trend. Encourage the reader to hover over the interactive chart below to see how Larceny decoupled from other crimes.]</p>
+            <p>By comparing larceny thefts against other major property crimes like burglary and motor vehicle theft, a fascinating divergence emerges. Explore the interactive chart below to see how larceny completely decoupled from other property crimes, soaring while others remained relatively stable.</p>
         </div>
 
         <div class="viz-container">
@@ -96,15 +98,15 @@
 
         <div class="context-box">
             <h3>Correlation vs. Causation: The Context of the Data</h3>
-            <p>[Nail your final learning outcome here. Acknowledge that while the graph jumps right after Prop 47, data is never neutral. Mention that reporting methods may have changed (e.g., SFPD introduced easier online reporting for car break-ins around this time).]</p>
+            <p>It is tempting to look at the sharp increase in larceny following 2014 and conclude that Proposition 47 is the sole culprit. However, in data science, correlation does not automatically equal causation. During this exact same period, the SFPD introduced a streamlined online reporting system for car break-ins. Because victims no longer had to wait for an officer to file a report, the "surge" in the data is partially driven by an increase in <em>reporting</em>, not just an increase in actual crime.</p>
             
-            <p>[Discuss other factors: This era also coincided with a massive tech-boom, extreme wealth inequality, and a surge in tourism, creating more opportunity for auto-glass theft. Explain that while Prop 47 is a compelling narrative, real-world data is deeply complex and interwoven with social dynamics.]</p>
+            <p>Furthermore, this era coincided with a massive tech boom, widening wealth inequality, and a historic surge in tourism—creating a target-rich environment for auto-glass theft. While Proposition 47 is a compelling piece of the narrative, the real-world data is deeply interwoven with these complex social, technological, and economic dynamics.</p>
         </div>
 
     </div>
 
     <footer>
-        Data Story Assignment 2.1 | Built for [Class/Professor Name] | Data Source: SFPD Incident Reports
+        Data Story Assignment | Built for [Class/Professor Name] | Data Source: SFPD Incident Reports (2003-2023)
     </footer>
 
 </body>
