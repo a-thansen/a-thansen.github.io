@@ -11,28 +11,56 @@
     
     <style>
         :root {
-            --bg-dark: #050507;
-            --text-main: #cbd5e1;
-            --text-muted: #94a3b8;
-            --accent-electric: #00f2ff;
-            --accent-red: #ff003c;
-            --card-bg: rgba(15, 15, 25, 0.8);
-            --border-glow: rgba(0, 242, 255, 0.2);
+            /* Larceny Vibe Palette */
+            --bg-dark: #070709; /* Deep, gritty black */
+            --text-main: #d1d5db;
+            --text-muted: #848d99;
+            --accent-gold: #cda833; /* Oily, greedy gold/brass (replaces cyan) */
+            --accent-red: #ff003c;  /* Urgent red (retained for focus) */
+            --card-bg: rgba(12, 12, 15, 0.9); /* Darker cards */
+            --border-glow: rgba(205, 168, 51, 0.15); /* Match gold accent */
         }
 
-        /* --- ELECTRIC STATIC ANIMATIONS --- */
-        @keyframes flicker {
-            0% { opacity: 0.97; }
-            5% { opacity: 0.92; }
-            10% { opacity: 0.98; }
-            15% { opacity: 0.94; }
-            20% { opacity: 0.99; }
-            100% { opacity: 1; }
+        /* --- CREATIVE LARCENY ANIMATIONS --- */
+
+        /* Header Glitch - Color Separation (Chromatic Aberration) */
+        @keyframes header-glitch {
+            0% { text-shadow: 0.5px 0 0 rgba(255,0,0,0.5), -0.5px 0 0 rgba(0,255,255,0.5); opacity: 1; }
+            2% { text-shadow: 2px 0 0 rgba(255,0,0,0.7), -2px 0 0 rgba(0,255,255,0.7); opacity: 0.8; }
+            4% { text-shadow: 0.5px 0 0 rgba(255,0,0,0.5), -0.5px 0 0 rgba(0,255,255,0.5); opacity: 1; }
+            5% { text-shadow: -2px 0 0 rgba(255,0,0,0.7), 2px 0 0 rgba(0,255,255,0.7); }
+            6% { text-shadow: 0; }
+            100% { text-shadow: 0; }
         }
 
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
+        /* Oily Sheen for headers */
+        @keyframes oily-sheen {
+            to { background-position: 200% center; }
+        }
+
+        /* Faulty Circuit Surge for Divider */
+        @keyframes circuit-surge {
+            0% { box-shadow: 0 0 10px var(--accent-gold); opacity: 1; }
+            10% { box-shadow: 0 0 5px var(--accent-gold); opacity: 0.8; }
+            12% { box-shadow: 0 0 25px var(--accent-red); opacity: 1; } /* Short-circuit pop */
+            14% { box-shadow: 0 0 10px var(--accent-gold); opacity: 1; }
+            50% { box-shadow: 0 0 15px var(--accent-gold); opacity: 0.9; }
+            55% { box-shadow: 0 0 2px var(--accent-gold); opacity: 0.5; } /* Power dip */
+            60% { box-shadow: 0 0 10px var(--accent-gold); opacity: 1; }
+            100% { box-shadow: 0 0 10px var(--accent-gold); opacity: 1; }
+        }
+
+        /* Vibrating Border Glow for cards */
+        @keyframes glow-vibrate {
+            0% { box-shadow: 0 0 10px var(--border-glow); }
+            50% { box-shadow: 0 0 14px var(--border-glow); }
+            100% { box-shadow: 0 0 10px var(--border-glow); }
+        }
+
+        /* Decryption Scan Line */
+        @keyframes decryptionscan {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
         .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
@@ -41,7 +69,7 @@
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
-            font-family: 'Inter', sans-serif; /* Cleaner main font */
+            font-family: 'Inter', sans-serif;
             line-height: 1.7;
             margin: 0;
             padding: 0;
@@ -60,10 +88,10 @@
             top: 0;
             left: 0;
             height: 3px;
-            background: var(--accent-electric);
+            background: var(--accent-gold); /* Gold progress */
             width: 0%;
             z-index: 9999;
-            box-shadow: 0 0 15px var(--accent-electric);
+            box-shadow: 0 0 15px var(--accent-gold);
         }
 
         header {
@@ -75,17 +103,18 @@
             min-height: 70vh;
             text-align: center;
             padding: 0 20px;
-            background: radial-gradient(circle at 50% 40%, #101a30 0%, var(--bg-dark) 80%);
+            /* Grittier, murky gold/brown gradient */
+            background: radial-gradient(circle at 50% 40%, #2a2005 0%, var(--bg-dark) 80%);
             overflow: hidden;
         }
 
-        /* Scanline Overlay Effect */
+        /* Subtle Scanline Overlay Effect (retained but slightly darkened) */
         header::before {
             content: "";
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
             background-size: 100% 4px, 3px 100%;
             pointer-events: none;
         }
@@ -94,15 +123,14 @@
             font-size: clamp(3rem, 10vw, 8rem); 
             margin: 0;
             color: #fff;
-            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
-            animation: flicker 2s infinite;
+            animation: header-glitch 4s infinite linear; /* faulty surveillance animation */
         }
 
         .subtitle { 
             font-weight: 300;
             font-size: 1.1rem;
             letter-spacing: 5px;
-            color: var(--accent-electric);
+            color: var(--accent-gold); /* Gold subtitle */
             margin-top: 10px;
             text-transform: uppercase;
         }
@@ -112,39 +140,41 @@
 
         .narrative { font-size: 1.15rem; margin-bottom: 60px; font-family: 'Merriweather', serif; }
 
-        /* Electric Divider */
+        /* Faulty Circuit Divider */
         .electric-divider {
             height: 1px;
             width: 100%;
-            background: var(--accent-electric);
+            background: var(--accent-gold);
             margin: 80px 0;
             position: relative;
-            box-shadow: 0 0 10px var(--accent-electric);
+            animation: circuit-surge 7s infinite linear; /* Surge animation */
         }
 
         .electric-divider::after {
-            content: "SIGNAL STRENGTH: STABLE";
+            content: "SURVEILLANCE FEED: UNSTABLE";
             position: absolute;
             right: 0;
             top: -20px;
             font-size: 0.7rem;
             font-family: monospace;
-            color: var(--accent-electric);
+            color: var(--accent-gold);
         }
 
         .viz-container {
             background-color: var(--card-bg);
             padding: 25px; border-radius: 2px; 
-            border: 1px solid rgba(0, 242, 255, 0.1);
+            border: 1px solid rgba(205, 168, 51, 0.08); /* Murky gold border */
             position: relative;
             overflow: hidden;
+            animation: glow-vibrate 5s infinite ease-in-out; /* Pulsing card animation */
         }
 
+        /* CRT Overlay effect retained but darkened */
         .viz-container::before {
             content: "";
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 2px);
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.08) 0px, rgba(0,0,0,0.08) 1px, transparent 1px, transparent 2px);
             pointer-events: none;
         }
 
@@ -154,18 +184,29 @@
 
         .viz-caption { 
             font-size: 0.9rem; color: var(--text-muted); 
-            margin-top: 20px; padding-left: 15px; border-left: 1px solid var(--accent-electric);
+            margin-top: 20px; padding-left: 15px; border-left: 1px solid var(--accent-gold); /* Gold caption border */
         }
 
         .viz-caption strong { color: #fff; text-transform: uppercase; letter-spacing: 1px; }
 
         .context-box {
-            background: rgba(255, 255, 255, 0.02); 
+            background: rgba(255, 255, 255, 0.015); /* Almost completely hidden */
             padding: 40px; margin: 100px 0; border-radius: 4px;
-            border: 1px solid #222;
+            border: 1px solid #1a1a1f;
+            overflow: hidden;
+            position: relative;
         }
 
-        .context-box h3 { color: var(--accent-electric); margin-top: 0; font-size: 1.6rem; }
+        /* Decryption Scan Line (moves once when revealed) */
+        .reveal.active .context-box::before {
+            content: "";
+            position: absolute;
+            top: 0; width: 100px; height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(205, 168, 51, 0.15) 50%, transparent 100%);
+            animation: decryptionscan 1.5s ease-out forwards;
+        }
+
+        .context-box h3 { color: var(--accent-gold); margin-top: 0; font-size: 1.6rem; }
 
         footer { text-align: center; padding: 100px 20px; font-size: 0.75rem; color: #444; letter-spacing: 2px; }
     </style>
@@ -175,7 +216,7 @@
     <div id="progress-bar"></div>
 
     <header>
-        <h1>THE $950 BREAKPOINT</h1>
+        <h1>THE LARCENY BREAK</h1>
         <div class="subtitle">A POST-PROP 47 ANALYTICAL REPORT // SFPD INDEX</div>
     </header>
 
@@ -199,7 +240,7 @@
 
     <div class="container reveal">
         <div class="narrative">
-            <p>The increase wasn't spread across the city equally. The Northern and Central districts, comprising the tourist corridors and the retail core, absorbed the sharpest climb. Meanwhile the outer residential neighborhoods like Sunset and Richmond barely registered the change. The $950 threshold didn't just redefine what was prosecutable. It apparently redrew the map of where it was worth trying.</p>
+            <p>The increase wasn't spread across the city equally. The Northern and Central districts, comprising the tourist corridors and the retail core, absorbed the sharpest climb. Meanwhile the outer residential neighborhoods like Sunset and Richmond barely registered the change. The $950 threshold didn't just redefine what was prosecutable. It apparently also redrew the map of where it was worth attempting</p>
         </div>
     </div>
 
@@ -215,7 +256,7 @@
 
     <div class="container reveal">
         <div class="narrative">
-            <p>Numbers can lie by omission. Larceny going up doesn't mean much on its own, unless you look at what it did to everything around it. In the sunburst below, each district gets a wedge, and each wedge breaks down into crime categories. Larceny Theft dominates every single outer ring, in every district, in both time periods. Burglary, vehicle theft, and vandalism are still there, but they are slivers. Larceny became the whole frame.</p>
+            <p>Numbers can lie by omission. Larceny going up doesn't mean much on its own, unless you look at what it did to everything around it. In the sunburst below, each district gets a wedge, and each wedge breaks down into crime categories. Larceny Theft dominates every single outer ring, in every district, in both time periods. Burglary, vehicle theft, and vandalism are still there, but they are slivers. Larceny became the whole frame. To see the shift at the neighborhood level, click into a specific district and hover to compare the slivers of remaining property crime.</p>
         </div>
     </div>
 
@@ -232,11 +273,11 @@
     <div class="container reveal">
         <div class="context-box">
             <h3>ANALYTICAL CONTEXT</h3>
-            <p>Data can be coached. The SFPD introduced online and mobile reporting tools around the same period. Suddenly, filing a report for a smashed car window took two minutes on a phone instead of a trip to the station. Some of this wave may simply be crimes that always existed but were never counted. </p>
+            <p>Data can be misleading The SFPD introduced online and mobile reporting tools around the same period. Suddenly, filing a report for a smashed car window took two minutes on a phone instead of a trip to the station. Some of this wave may simply be crimes that always existed but were never counted. </p>
             
-            <p>The 2020 dip is real: COVID emptied the commercial corridors that generated most of the incidents. The rebound after 2021 suggests the underlying conditions hadn't gone away, just the targets had.</p>
+            <p>The geography tells a second story. The surge was hyper-concentrated in districts with the highest density of tourists and high-value tech commuters. As the market for stolen electronics moved to the internet, the reward for a quick break-in grew.</p>
 
-            <p>The honest answer is that the numbers show something clearly happened in late 2014. Why it happened, and how much of it was law, economics, or a city finally learning to count, that part is still open.</p>
+            <p>The 2020 dip is almost like a controlled experiment. COVID emptied the commercial corridors that generated most of the incidents. The targets disappeared, and the numbers crashed instantly. The rebound after 2021 suggests the underlying conditions hadn't gone away. </p>
         </div>
     </div>
 
